@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="calculator.css" />
+        <title>Calculator</title>
+        <script defer src="calculator.js"></script>
+    </head>
+    <body>
+        <div class="center">
+            <div class="calculator">
+                <div class="output">
+                    <div class="history">*</div>
+                    <div class="result"></div>
+                </div>
+                <button class="mem" data-action="c">MC</button>
+                <button class="mem" data-action="r">MR</button>
+                <button class="mem" data-action="s">MS</button>
+                <button class="mem" data-action="+">M+</button>
+                <button class="mem" data-action="-">M-</button>
+                <button class="del"><<</button>
+                <button class="cancel-entry">CE</button>
+                <button class="cancel">C</button>
+                <button class="unaryop" data-op="neg">Neg</button>
+                <button class="unaryop" data-op="sqr">Sqr</button>
+                <button class="digit" data-digit="7">7</button>
+                <button class="digit" data-digit="8">8</button>
+                <button class="digit" data-digit="9">9</button>
+                <button class="binaryop" data-op="/">/</button>
+                <button class="unaryop" data-op="%">%</button>
+                <button class="digit" data-digit="4">4</button>
+                <button class="digit" data-digit="5">5</button>
+                <button class="digit" data-digit="6">6</button>
+                <button class="binaryop" data-op="*">*</button>
+                <button class="unaryop" data-op="recip">1/x</button>
+                <button class="digit" data-digit="1">1</button>
+                <button class="digit" data-digit="2">2</button>
+                <button class="digit" data-digit="3">3</button>
+                <button class="binaryop" data-op="-">-</button>
+                <button class="equals binaryop" data-op="=">=</button>
+                <button class="zero digit" data-digit="0">0</button>
+                <button class="digit" data-digit=".">.</button>
+                <button class="binaryop" data-op="+">+</button>
+            </div>
+        </div>
+    </body>
+</html>

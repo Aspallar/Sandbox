@@ -1,0 +1,41 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true,
+        "jquery": true
+    },
+    "extends": "eslint:recommended",
+    "globals": {
+        "Atomics": "readonly",
+        "SharedArrayBuffer": "readonly"
+    },
+    "parserOptions": {
+        "ecmaVersion": 11,
+        "sourceType": "module"
+    },
+    "rules": {
+        "no-extra-parens": ["error", "all"],
+        "semi": ["error", "always"],
+        "eqeqeq": ["error", "always"],
+        "no-console": "warn",
+        "no-loss-of-precision": "error",
+        "no-promise-executor-return": "error",
+        "no-unreachable-loop": "error",
+        "no-useless-backreference": "error",
+        "require-atomic-updates": "error",
+        "consistent-return": [
+            "error",
+            { "treatUndefinedAsUnspecified": false }
+        ],
+        "curly": ["error", "multi", "consistent"],
+        "default-case-last": "error",
+        "default-param-last": "error",
+        "grouped-accessor-pairs": "error",
+        "no-alert": "warn",
+        "no-constructor-return": "error",
+        "no-extra-bind": "error",
+        "generator-star-spacing": ["error", { "before": false, "after": true }],
+        "no-duplicate-imports": ["error", { "includeExports": true }]
+    },
+    "ignorePatterns": ["**/*.min.js"]
+}
