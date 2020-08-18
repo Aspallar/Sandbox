@@ -28,7 +28,7 @@ body {
     border-top: 2px solid darkred;
     display: grid;
     grid-template-columns: repeat(5, 50px);
-    grid-template-rows: minmax(60px, auto) repeat(6, 50px);
+    grid-template-rows: minmax(60px, auto) repeat(6, 50px) auto;
 }
 
 .calculator button {
@@ -68,14 +68,21 @@ body {
     justify-content: space-around;
     padding: 0 10px;
     word-wrap: break-word;
-    word-break: break-all;
+    word-break: normal;
 }
 
 .history {
     color: grey;
+    min-height: 1em;
 }
 
 .result {
     font-size: 1.6em;
     color: pink;
+}
+
+.calculator .life {
+    grid-column: span 5;
+    font-size: 0.8em;
+    padding: 4px 0;
 }

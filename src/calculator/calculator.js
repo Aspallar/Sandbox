@@ -6,11 +6,14 @@ class Calculator {
     reset() {
         this._accumulator = null;
         this._operator = '';
+        this._history = '';
     }
 
     addBinaryOperation(operator, operand) {
+        var newHistory;
         if (this._accumulator === null) {
             this._accumulator = operand;
+            newHistory = `${operand} ${operator}`;
         } else {
             let val = this._accumulator;
             switch (this._operator) {
@@ -27,18 +30,27 @@ class Calculator {
                     val /= operand;
                     break;
                 case '=':
-                    // do nothing
+                    // Do nothing
                     break;
                 default:
                     throw new Error('Unknown binary operator');
             }
             this._accumulator = val;
+            newHistory = ` ${operand} ${operator}`;
         }
+
+        if (operator === '=') this._history = '';
+        else this._history += newHistory;
+
         this._operator = operator;
     }
 
     get value() {
         return this._accumulator;
+    }
+
+    get history() {
+        return this._history;
     }
 
     static applyUnaryOperation(operator, value) {
@@ -179,6 +191,12 @@ class CalculatorView {
             this.uodateUi();
         });
 
+        container.querySelector('.life').addEventListener('click', () => {
+            this._maybeResetCalculator();
+            this.entry.value = 42;
+            this.uodateUi();
+        });
+
         container.querySelector('.cancel').addEventListener('click', () => {
             this.entry.empty();
             this.calculator.reset();
@@ -220,6 +238,7 @@ class CalculatorView {
 
     uodateUi() {
         this.result.innerHTML = this.entry.displayText;
+        this.history.innerHTML = this.calculator.history;
     }
 
     _maybeResetCalculator() {
