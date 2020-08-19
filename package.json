@@ -1,18 +1,22 @@
 {
-  "name": "Sandbox",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {},
-  "devDependencies": {
-    "eslint": "^7.7.0",
-    "prettier": "^2.0.5",
-    "terser": "^5.1.0"
-  }
+    "name": "sandbox",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {},
+    "devDependencies": {
+        "eslint": "^7.7.0",
+        "gulp": "^4.0.2",
+        "gulp-file-include": "^2.2.2",
+        "gulp-prettier": "^3.0.0",
+        "gulp-rename": "^2.0.0",
+        "prettier": "^2.0.5",
+        "terser": "^5.1.0"
+    }
 }

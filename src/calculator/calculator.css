@@ -22,67 +22,8 @@ body {
     height: 90vh;
 }
 
-.calculator {
-    background: rgba(112, 153, 190, 0.9);
-    margin: 0 auto;
-    border-top: 2px solid darkred;
-    display: grid;
-    grid-template-columns: repeat(5, 50px);
-    grid-template-rows: minmax(60px, auto) repeat(6, 50px) auto;
-}
-
-.calculator button {
-    cursor: pointer;
-    background: darkred;
-    color: rgba(211, 164, 76, 0.9);
-    font-size: 1.2em;
-    outline: none;
-    border-style: outset;
-    border-color: rgb(118, 118, 118);
-}
-
-.calculator button:active {
-    border-style: inset;
-}
-
-.calculator .mem {
-    background: rgb(102, 1, 1);
-    color: rgb(167, 167, 167);
-}
-
-.zero {
-    grid-column: span 2;
-}
-
-.calculator .equals {
-    grid-row: span 2;
-    font-size: 2em;
-}
-
-.output {
-    grid-column: span 5;
-    background: rgba(0, 0, 0, 0.78);
-    text-align: right;
+.container {
     display: flex;
-    flex-direction: column;
     justify-content: space-around;
-    padding: 0 10px;
-    word-wrap: break-word;
-    word-break: normal;
-}
-
-.history {
-    color: grey;
-    min-height: 1em;
-}
-
-.result {
-    font-size: 1.6em;
-    color: pink;
-}
-
-.calculator .life {
-    grid-column: span 5;
-    font-size: 0.8em;
-    padding: 4px 0;
+    gap: 5px;
 }

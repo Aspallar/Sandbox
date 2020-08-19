@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Three Calculators</title>
+        <link rel="stylesheet" href="calculator.css" />
+        <script defer type="module">
+            import { RedCalculatorElement } from './calculator.js';
+            (function () {
+                var foo = new RedCalculatorElement();
+                document.getElementById('created-by-code').appendChild(foo);
+            })();
+        </script>
+    </head>
+    <body>
+        <h1>Calculators</h1>
+        <div class="container">
+            <red-calculator></red-calculator>
+            <red-calculator></red-calculator>
+            <div id="created-by-code"></div>
+        </div>
+
+        @@include('./calculator.template.html')
+    </body>
+</html>

@@ -76,11 +76,10 @@ class CalculatorEntry {
     }
 
     addDigit(digit) {
-        if (digit !== '.' || !this._text.includes('.')) {
-            if (this._isNew) {
-                this.empty();
-                this._isNew = false;
-            }
+        if (this._isNew) {
+            this._text = digit;
+            this._isNew = false;
+        } else if (digit !== '.' || !this._text.includes('.')) {
             this._text += digit;
         }
     }
@@ -158,95 +157,168 @@ class CalculatorMemory {
     }
 }
 
-class CalculatorView {
-    constructor(container) {
-        this.entry = new CalculatorEntry();
-        this.calculator = new Calculator();
-        this.memory = new CalculatorMemory();
-        this.result = container.querySelector('.result');
-        this.history = container.querySelector('.history');
-        this.lastActionWasEquals = false;
+export class RedCalculatorElement extends HTMLElement {
+    constructor() {
+        super();
 
-        container.querySelectorAll('.digit').forEach(digit =>
-            digit.addEventListener('click', e => {
-                this._maybeResetCalculator();
-                this.entry.addDigit(e.target.getAttribute('data-digit'));
-                this.uodateUi();
-            })
-        );
+        const templateId = 'red-calculator-template';
+        const template = document.getElementById(templateId);
+        if (template === null)
+            throw new Error(`<CalculatorElement> no template with id ${templateId} found.`);
 
-        container.querySelectorAll('.unaryop').forEach(digit =>
-            digit.addEventListener('click', e => {
-                if (this.entry.hasValue) {
-                    let op = e.target.getAttribute('data-op');
-                    this._maybeResetCalculator();
-                    this.entry.value = Calculator.applyUnaryOperation(op, this.entry.value);
-                    this.uodateUi();
-                }
-            })
-        );
+        const root = this.attachShadow({ mode: 'open' });
+        root.appendChild(template.content.cloneNode(true));
 
-        container.querySelector('.cancel-entry').addEventListener('click', () => {
-            this.entry.empty();
-            this.uodateUi();
-        });
+        this._entry = new CalculatorEntry();
+        this._calculator = new Calculator();
+        this._memory = new CalculatorMemory();
+        this._result = root.querySelector('.result');
+        this._history = root.querySelector('.history');
+        this._lastActionWasEquals = false;
 
-        container.querySelector('.life').addEventListener('click', () => {
-            this._maybeResetCalculator();
-            this.entry.value = 42;
-            this.uodateUi();
-        });
+        this._digitClickHandler = this._digitClick.bind(this);
+        this._unaryOperatorClickHandler = this._unaryOperatorClick.bind(this);
+        this._cancelEntryClickHandler = this._cancelEntryClick.bind(this);
+        this._lifeClickHandler = this._lifeClick.bind(this);
+        this._cancelClickHandler = this._cancelClick.bind(this);
+        this._binaryOperatorClickHandler = this._binaryOperatorClick.bind(this);
+        this._memoryClickHandler = this._memoryClick.bind(this);
+        this._deleteClickHandler = this._deleteClick.bind(this);
 
-        container.querySelector('.cancel').addEventListener('click', () => {
-            this.entry.empty();
-            this.calculator.reset();
-            this.uodateUi();
-        });
-
-        container.querySelectorAll('.binaryop').forEach(op => {
-            op.addEventListener('click', e => {
-                if (this.entry.hasValue) {
-                    let op = e.target.getAttribute('data-op');
-                    this.calculator.addBinaryOperation(op, this.entry.value);
-                    this.entry.value = this.calculator.value;
-                    this.entry.startNew();
-                    this.lastActionWasEquals = op === '=';
-                    this.uodateUi();
-                }
-            });
-        });
-
-        container.querySelectorAll('.mem').forEach(mem => {
-            mem.addEventListener('click', e => {
-                let action = e.target.getAttribute('data-action');
-                if (action === 'r') {
-                    this.entry.value = this.memory.value;
-                    this.uodateUi();
-                } else {
-                    this.memory.update(action, this.entry.value);
-                }
-            });
-        });
-
-        container.querySelector('.del').addEventListener('click', () => {
-            this.entry.deleteDigit();
-            this.uodateUi();
-        });
-
-        this.uodateUi();
+        this._uodateUi();
     }
 
-    uodateUi() {
-        this.result.innerHTML = this.entry.displayText;
-        this.history.innerHTML = this.calculator.history;
+    connectedCallback() {
+        const root = this.shadowRoot;
+
+        root.querySelectorAll('.digit').forEach(digit =>
+            digit.addEventListener('click', this._digitClickHandler)
+        );
+
+        root.querySelectorAll('.unaryop').forEach(op =>
+            op.addEventListener('click', this._unaryOperatorClickHandler)
+        );
+
+        root.querySelector('.cancel-entry').addEventListener(
+            'click',
+            this._cancelEntryClickHandler
+        );
+
+        root.querySelector('.life').addEventListener('click', this._lifeClickHandler);
+
+        root.querySelector('.cancel').addEventListener('click', this._cancelClickHandler);
+
+        root.querySelectorAll('.binaryop').forEach(op =>
+            op.addEventListener('click', this._binaryOperatorClickHandler)
+        );
+
+        root.querySelectorAll('.mem').forEach(mem =>
+            mem.addEventListener('click', this._memoryClickHandler)
+        );
+
+        root.querySelector('.del').addEventListener('click', this._deleteClickHandler);
+    }
+
+    disconnectedCallback() {
+        const root = this.shadowRoot;
+
+        root.querySelectorAll('.digit').forEach(digit =>
+            digit.removeEventListener('click', this._digitClickHandler)
+        );
+
+        root.querySelectorAll('.unaryop').forEach(op =>
+            op.removeEventListener('click', this._unaryOperatorClickHandler)
+        );
+
+        root.querySelector('.cancel-entry').removeEventListener(
+            'click',
+            this._cancelEntryClickHandler
+        );
+
+        root.querySelector('.life').removeEventListener('click', this._lifeClickHandler);
+
+        root.querySelector('.cancel').removeEventListener('click', this._cancelClickHandler);
+
+        root.querySelectorAll('.binaryop').forEach(op =>
+            op.removeEventListener('click', this._binaryOperatorClickHandler)
+        );
+
+        root.querySelectorAll('.mem').forEach(mem =>
+            mem.removeEventListener('click', this._memoryClickHandler)
+        );
+
+        root.querySelector('.del').removeEventListener('click', this._deleteClickHandler);
+    }
+
+    _digitClick(event) {
+        this._maybeResetCalculator();
+        this._entry.addDigit(event.target.getAttribute('data-digit'));
+        this._uodateUi();
+    }
+
+    _unaryOperatorClick(event) {
+        if (this._entry.hasValue) {
+            let op = event.target.getAttribute('data-op');
+            this._maybeResetCalculator();
+            this._entry.value = Calculator.applyUnaryOperation(op, this._entry.value);
+            this._uodateUi();
+        }
+    }
+
+    _cancelEntryClick() {
+        this._entry.empty();
+        this._uodateUi();
+    }
+
+    _lifeClick() {
+        this._maybeResetCalculator();
+        this._entry.value = 42;
+        this._uodateUi();
+    }
+
+    _cancelClick() {
+        this._entry.empty();
+        this._calculator.reset();
+        this._uodateUi();
+    }
+
+    _binaryOperatorClick(event) {
+        if (this._entry.hasValue) {
+            let op = event.target.getAttribute('data-op');
+            this._calculator.addBinaryOperation(op, this._entry.value);
+            this._entry.value = this._calculator.value;
+            this._entry.startNew();
+            this._lastActionWasEquals = op === '=';
+            this._uodateUi();
+        }
+    }
+
+    _memoryClick(event) {
+        let action = event.target.getAttribute('data-action');
+        if (action === 'r') {
+            this._entry.value = this._memory.value;
+            this._uodateUi();
+        } else {
+            this._memory.update(action, this._entry.value);
+        }
+    }
+
+    _deleteClick() {
+        this._entry.deleteDigit();
+        this._uodateUi();
+    }
+
+    _uodateUi() {
+        this._result.innerHTML = this._entry.displayText;
+        this._history.innerHTML = this._calculator.history;
     }
 
     _maybeResetCalculator() {
-        if (this.lastActionWasEquals) {
-            this.calculator.reset();
-            this.lastActionWasEquals = false;
+        if (this._lastActionWasEquals) {
+            this._calculator.reset();
+            this._lastActionWasEquals = false;
         }
     }
 }
 
-new CalculatorView(document.querySelector('.calculator'));
+window.customElements.define('red-calculator', RedCalculatorElement);

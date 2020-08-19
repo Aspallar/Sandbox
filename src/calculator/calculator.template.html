@@ -1,0 +1,103 @@
+<template id="red-calculator-template">
+    <style>
+        .calculator {
+            background: rgba(112, 153, 190, 0.9);
+            border-top: 2px solid darkred;
+            display: grid;
+            grid-template-columns: repeat(5, 50px);
+            grid-template-rows: minmax(60px, auto) repeat(6, 50px) auto;
+            width: fit-content;
+        }
+
+        .calculator button {
+            cursor: pointer;
+            background: darkred;
+            color: rgba(211, 164, 76, 0.9);
+            font-size: 1.2em;
+            outline: none;
+            border-style: outset;
+            border-color: rgb(118, 118, 118);
+        }
+
+        .calculator button:active {
+            border-style: inset;
+        }
+
+        .calculator .mem {
+            background: rgb(102, 1, 1);
+            color: rgb(167, 167, 167);
+        }
+
+        .zero {
+            grid-column: span 2;
+        }
+
+        .calculator .equals {
+            grid-row: span 2;
+            font-size: 2em;
+        }
+
+        .output {
+            grid-column: span 5;
+            background: rgba(0, 0, 0, 0.78);
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            padding: 0 10px;
+            word-wrap: break-word;
+            word-break: normal;
+        }
+
+        .history {
+            color: grey;
+            min-height: 1em;
+        }
+
+        .result {
+            font-size: 1.6em;
+            color: pink;
+        }
+
+        .calculator .life {
+            grid-column: span 5;
+            font-size: 0.8em;
+            padding: 4px 0;
+        }
+    </style>
+    <div class="calculator">
+        <div class="output">
+            <div class="history"></div>
+            <div class="result"></div>
+        </div>
+        <button class="mem" data-action="c">MC</button>
+        <button class="mem" data-action="r">MR</button>
+        <button class="mem" data-action="s">MS</button>
+        <button class="mem" data-action="+">M+</button>
+        <button class="mem" data-action="-">M-</button>
+        <button class="del"><<</button>
+        <button class="cancel-entry">CE</button>
+        <button class="cancel">C</button>
+        <button class="unaryop" data-op="neg">Neg</button>
+        <button class="unaryop" data-op="sqr">Sqr</button>
+        <button class="digit" data-digit="7">7</button>
+        <button class="digit" data-digit="8">8</button>
+        <button class="digit" data-digit="9">9</button>
+        <button class="binaryop" data-op="/">/</button>
+        <button class="unaryop" data-op="%">%</button>
+        <button class="digit" data-digit="4">4</button>
+        <button class="digit" data-digit="5">5</button>
+        <button class="digit" data-digit="6">6</button>
+        <button class="binaryop" data-op="*">*</button>
+        <button class="unaryop" data-op="recip">1/x</button>
+        <button class="digit" data-digit="1">1</button>
+        <button class="digit" data-digit="2">2</button>
+        <button class="digit" data-digit="3">3</button>
+        <button class="binaryop" data-op="-">-</button>
+        <button class="equals binaryop" data-op="=">=</button>
+        <button class="zero digit" data-digit="0">0</button>
+        <button class="digit" data-digit=".">.</button>
+        <button class="binaryop" data-op="+">+</button>
+        <button class="life">Life the universe and everything</button>
+    </div>
+</template>
