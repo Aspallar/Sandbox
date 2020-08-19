@@ -175,79 +175,33 @@ export class RedCalculatorElement extends HTMLElement {
         this._result = root.querySelector('.result');
         this._history = root.querySelector('.history');
         this._lastActionWasEquals = false;
-
-        this._digitClickHandler = this._digitClick.bind(this);
-        this._unaryOperatorClickHandler = this._unaryOperatorClick.bind(this);
-        this._cancelEntryClickHandler = this._cancelEntryClick.bind(this);
-        this._lifeClickHandler = this._lifeClick.bind(this);
-        this._cancelClickHandler = this._cancelClick.bind(this);
-        this._binaryOperatorClickHandler = this._binaryOperatorClick.bind(this);
-        this._memoryClickHandler = this._memoryClick.bind(this);
-        this._deleteClickHandler = this._deleteClick.bind(this);
+        this._clickEventHandler = this._routeClickEvent.bind(this);
 
         this._uodateUi();
     }
 
     connectedCallback() {
-        const root = this.shadowRoot;
-
-        root.querySelectorAll('.digit').forEach(digit =>
-            digit.addEventListener('click', this._digitClickHandler)
-        );
-
-        root.querySelectorAll('.unaryop').forEach(op =>
-            op.addEventListener('click', this._unaryOperatorClickHandler)
-        );
-
-        root.querySelector('.cancel-entry').addEventListener(
-            'click',
-            this._cancelEntryClickHandler
-        );
-
-        root.querySelector('.life').addEventListener('click', this._lifeClickHandler);
-
-        root.querySelector('.cancel').addEventListener('click', this._cancelClickHandler);
-
-        root.querySelectorAll('.binaryop').forEach(op =>
-            op.addEventListener('click', this._binaryOperatorClickHandler)
-        );
-
-        root.querySelectorAll('.mem').forEach(mem =>
-            mem.addEventListener('click', this._memoryClickHandler)
-        );
-
-        root.querySelector('.del').addEventListener('click', this._deleteClickHandler);
+        this.shadowRoot
+            .querySelector('.calculator')
+            .addEventListener('click', this._clickEventHandler);
     }
 
     disconnectedCallback() {
-        const root = this.shadowRoot;
+        this.shadowRoot
+            .querySelector('.calculator')
+            .removeEventListener('click', this._clickEventHandler);
+    }
 
-        root.querySelectorAll('.digit').forEach(digit =>
-            digit.removeEventListener('click', this._digitClickHandler)
-        );
-
-        root.querySelectorAll('.unaryop').forEach(op =>
-            op.removeEventListener('click', this._unaryOperatorClickHandler)
-        );
-
-        root.querySelector('.cancel-entry').removeEventListener(
-            'click',
-            this._cancelEntryClickHandler
-        );
-
-        root.querySelector('.life').removeEventListener('click', this._lifeClickHandler);
-
-        root.querySelector('.cancel').removeEventListener('click', this._cancelClickHandler);
-
-        root.querySelectorAll('.binaryop').forEach(op =>
-            op.removeEventListener('click', this._binaryOperatorClickHandler)
-        );
-
-        root.querySelectorAll('.mem').forEach(mem =>
-            mem.removeEventListener('click', this._memoryClickHandler)
-        );
-
-        root.querySelector('.del').removeEventListener('click', this._deleteClickHandler);
+    _routeClickEvent(event) {
+        const classList = event.target.classList;
+        if (classList.contains('digit')) this._digitClick(event);
+        else if (classList.contains('binaryop')) this._binaryOperatorClick(event);
+        else if (classList.contains('unaryop')) this._unaryOperatorClick(event);
+        else if (classList.contains('cancel-entry')) this._cancelEntryClick(event);
+        else if (classList.contains('cancel')) this._cancelClick(event);
+        else if (classList.contains('mem')) this._memoryClick(event);
+        else if (classList.contains('del')) this._deleteClick(event);
+        else if (classList.contains('life')) this._lifeClick(event);
     }
 
     _digitClick(event) {
