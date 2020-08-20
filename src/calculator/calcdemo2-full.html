@@ -3,16 +3,20 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap"
-            rel="stylesheet"
-        />
-        <link rel="stylesheet" href="demo.css" />
-        <title>Calculator</title>
-        <script defer type="module" src="./element/calculator.js"></script>
+        <title>Calculators</title>
+        <link rel="stylesheet" href="calcdemo.css" />
+        <script defer type="module" src="calcdemo2.js"></script>
     </head>
     <body>
-        <div class="center">
+        <h1>Calculators</h1>
+
+        <div class="controls">
+            <button id="add">Add a calculator</button>
+            <button id="remove">Remove a calculator</button>
+        </div>
+
+        <div class="container">
+            <red-calculator></red-calculator>
             <red-calculator></red-calculator>
         </div>
 
