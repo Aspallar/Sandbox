@@ -164,7 +164,7 @@ export class RedCalculatorElement extends HTMLElement {
         const templateId = 'red-calculator-template';
         const template = document.getElementById(templateId);
         if (template === null)
-            throw new Error(`<CalculatorElement> no template with id ${templateId} found.`);
+            throw new Error(`<RedCalculatorElement> no template with id ${templateId} found.`);
 
         const root = this.attachShadow({ mode: 'open' });
         root.appendChild(template.content.cloneNode(true));
@@ -174,7 +174,7 @@ export class RedCalculatorElement extends HTMLElement {
         this._memory = new CalculatorMemory();
         this._result = root.querySelector('.result');
         this._history = root.querySelector('.history');
-        this._lastActionWasEquals = false;
+        this._calculatorResetRequired = false;
         this._clickEventHandler = this._routeClickEvent.bind(this);
 
         this._uodateUi();
@@ -242,7 +242,7 @@ export class RedCalculatorElement extends HTMLElement {
             this._calculator.addBinaryOperation(op, this._entry.value);
             this._entry.value = this._calculator.value;
             this._entry.startNew();
-            this._lastActionWasEquals = op === '=';
+            this._calculatorResetRequired = op === '=';
             this._uodateUi();
         }
     }
@@ -268,9 +268,9 @@ export class RedCalculatorElement extends HTMLElement {
     }
 
     _maybeResetCalculator() {
-        if (this._lastActionWasEquals) {
+        if (this._calculatorResetRequired) {
             this._calculator.reset();
-            this._lastActionWasEquals = false;
+            this._calculatorResetRequired = false;
         }
     }
 }

@@ -3,22 +3,21 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Three Calculators</title>
+        <title>Calculators</title>
         <link rel="stylesheet" href="calculator.css" />
-        <script defer type="module">
-            import { RedCalculatorElement } from './calculator.js';
-            (function () {
-                var foo = new RedCalculatorElement();
-                document.getElementById('created-by-code').appendChild(foo);
-            })();
-        </script>
+        <script defer type="module" src="example2.js"></script>
     </head>
     <body>
         <h1>Calculators</h1>
+
+        <div class="controls">
+            <button id="add">Add a calculator</button>
+            <button id="remove">Remove a calculator</button>
+        </div>
+
         <div class="container">
             <red-calculator></red-calculator>
             <red-calculator></red-calculator>
-            <div id="created-by-code"></div>
         </div>
 
         @@include('./calculator.template.html')
