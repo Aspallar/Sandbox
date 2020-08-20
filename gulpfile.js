@@ -2,17 +2,30 @@
 const gulp = require('gulp'),
     fileinclude = require('gulp-file-include'),
     rename = require('gulp-rename'),
-    prettier = require('gulp-prettier');
+    prettier = require('gulp-prettier'),
+    terser = require('gulp-terser');
 
-async function buildCalculator() {
-    var folder = 'src/calculator/',
-        suffix = '-full';
+const calculatorFolder = 'src/calculator/';
+
+async function includeCalculator() {
+    const suffix = '-full';
     return gulp
-        .src([`${folder}*.html`, `!${folder}*${suffix}.html`])
+        .src([`${calculatorFolder}*.html`, `!${calculatorFolder}*${suffix}.html`])
         .pipe(fileinclude({ prefix: '@@', basepath: '@file' }))
         .pipe(prettier())
         .pipe(rename({ suffix }))
-        .pipe(gulp.dest(folder));
+        .pipe(gulp.dest(calculatorFolder));
 }
 
-exports.default = buildCalculator;
+async function minifyCalculator() {
+    const elementFolder = `${calculatorFolder}element/`,
+        extname = '.min.js';
+    return gulp
+        .src([`${elementFolder}/*.js`, `!${elementFolder}/*${extname}`])
+        .pipe(terser())
+        .pipe(rename({ extname }))
+        .pipe(gulp.dest(elementFolder));
+}
+
+exports.default = includeCalculator;
+exports.calculatorAll = gulp.parallel(includeCalculator, minifyCalculator);
