@@ -1,4 +1,4 @@
-import { RedCalculatorElement } from './calculator.js';
+import { RedCalculatorElement } from './element/calculator.js';
 
 window.addEventListener('DOMContentLoaded', () => {
     document
