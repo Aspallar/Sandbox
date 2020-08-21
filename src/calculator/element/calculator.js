@@ -192,6 +192,10 @@ export class RedCalculatorElement extends HTMLElement {
             .removeEventListener('click', this._clickEventHandler);
     }
 
+    getValue() {
+        return this._calculator.value || 0;
+    }
+
     _routeClickEvent(event) {
         const classList = event.target.classList;
         if (classList.contains('digit')) this._digitClick(event);

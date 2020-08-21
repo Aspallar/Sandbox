@@ -10,10 +10,16 @@
         <link rel="stylesheet" href="calcdemo.css" />
         <title>Calculator</title>
         <script defer type="module" src="./element/calculator.js"></script>
+        <script defer src="calcdemo.js"></script>
     </head>
     <body>
         <div class="center">
-            <red-calculator></red-calculator>
+            <div>
+                <div class="calcvalue">
+                    <button id="fetch">Fetch Calcumator Value</button>
+                </div>
+                <red-calculator></red-calculator>
+            </div>
         </div>
 
         @@include('./element/calculator.template.html')

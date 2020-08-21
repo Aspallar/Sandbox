@@ -19,7 +19,8 @@ body {
     margin: 0 0 25px 10px;
 }
 
-.controls > button {
+.controls > button,
+.calcvalue > button {
     cursor: pointer;
     color: inherit;
     background: darkred;
